@@ -197,7 +197,11 @@ io.on('connection', (socket) => {
 const mcpServer = new McpServer({
   name: "Vibe-Eyes",
   version: "1.0.0",
-  description: "An MCP server that enables LLMs to 'see' what's happening in browser-based games and applications through vectorized canvas visualization and debug information."
+  description: `An MCP server that enables LLMs to 'see' what's happening in browser-based games and applications through vectorized canvas visualization and debug information.
+  Note: Debug visualization uses SVG vectorization which may smooth sharp edges and simplify geometric shapes.
+  The actual canvas rendering may have more precise angles and edges than shown here.
+  Also, the vectorization process is optimized for speed and may not be suitable for high-fidelity graphics.
+  This server provides a way to visualize game states and debug information in a structured format, but it is a single frame at a time and not particularly useful for viewing animations.`,
 });
 
 // MCP tool with includeSvg parameter
