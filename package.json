@@ -1,0 +1,50 @@
+{
+  "name": "vibe-eyes",
+  "version": "1.0.0",
+  "description": "MCP server that provides LLMs with vectorized canvas output and debug information for vibe coding",
+  "main": "vectorizer.js",
+  "type": "module",
+  "bin": {
+    "vibe-eyes": "./mcp.js",
+    "vibe-eyes-vectorize": "./cli.js"
+  },
+  "scripts": {
+    "start": "node cli.js",
+    "server": "node mcp.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "svg",
+    "vector",
+    "raster",
+    "image",
+    "conversion",
+    "high-quality",
+    "library",
+    "cli"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.7.0",
+    "@neplex/vectorizer": "^0.0.5",
+    "commander": "^13.1.0",
+    "express": "^4.18.3",
+    "socket.io": "^4.7.4",
+    "svgo": "^3.3.2",
+    "zod": "^3.22.4"
+  },
+  "exports": {
+    ".": "./vectorizer.js"
+  },
+  "files": [
+    "vectorizer.js",
+    "cli.js",
+    "mcp.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
