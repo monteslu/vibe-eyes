@@ -197,15 +197,15 @@ io.on('connection', (socket) => {
 const mcpServer = new McpServer({
   name: "Vibe-Eyes",
   version: "1.0.0",
-  description: `An MCP server that enables LLMs to 'see' what's happening in browser-based games and applications through vectorized canvas visualization and debug information.
-  Note: Debug visualization uses SVG vectorization which may smooth sharp edges and simplify geometric shapes.
+  description: `An MCP server that enables LLMs to 'see' what's happening in browser-based games and applications through vectorized canvas approximation and debug information.
+  Note: Debug visualization uses SVG vectorization as approximation which may smooth sharp edges and simplify geometric shapes.
   The actual canvas rendering may have more precise angles and edges than shown here.
   Also, the vectorization process is optimized for speed and may not be suitable for high-fidelity graphics.
   This server provides a way to visualize game states and debug information in a structured format, but it is a single frame at a time and not particularly useful for viewing animations.`,
 });
 
 // MCP tool with includeSvg parameter
-mcpServer.tool("getGameDebug", {
+mcpServer.tool("getGameDebugInfoWithLogsAndVisualization", {
   includeSvg: z.boolean().optional().default(true)
 }, async ({ includeSvg }) => {
   // Simply use the latest capture
@@ -251,7 +251,6 @@ ${consoleLogs.map(log => `[${log.time}] ${log.message}`).join('\n')}
 ${errors.length ? 'Errors:\n' + errors.map(err => `[${err.time}] ${err.message}`).join('\n') : 'No errors.'}
 ${capture.unhandled_exception ? `\nUnhandled Exception:\n${JSON.stringify(capture.unhandled_exception, null, 2)}` : ''}
 
-${capture.vectorized?.stats ? `Vectorization Stats:\n${JSON.stringify(capture.vectorized.stats, null, 2)}` : ''}
 `;
 
   // Return in MCP-compatible format
@@ -270,7 +269,7 @@ ${capture.vectorized?.stats ? `Vectorization Stats:\n${JSON.stringify(capture.ve
   if (capture.vectorized?.svg && includeSvg) {
     try {
       // Add SVG as text directly in the response
-      result.content[0].text += "\n\n```svg\n" + capture.vectorized.svg + "\n```";
+      result.content[0].text += "\nSVG Approximation:\n```svg\n" + capture.vectorized.svg + "\n```";
     } catch (error) {
       console.error("Error with SVG data:", error);
       // Add error note to text content
