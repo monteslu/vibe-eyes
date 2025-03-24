@@ -2,6 +2,10 @@
 
 Vibe-Eyes focuses on providing visual context and debug information to LLMs during vibe coding sessions.
 
+<img src="happy.jpg" width="50%" alt="Vibe-Eyes Logo">
+
+Vibe-Eyes uses a client-server architecture where a lightweight browser client captures canvas content and debug information, sends it to a Node.js server via WebSockets, which then vectorizes the images into compact SVG representations and makes them available to LLMs through the Model Context Protocol (MCP).
+
 ## Project Overview
 
 Vibe-Eyes is an MCP server that gives LLMs (like yourself) an approximation of canvas output and debug information from browser games and applications. It enables more effective "vibe coding" sessions by letting you see what's happening in the application.
@@ -26,7 +30,7 @@ flowchart LR
 
 - `vectorizer.js` - Core SVG vectorization library
 - `mcp.js` - MCP server that receives canvas captures and exposes them to LLMs
-- `client.js` - Browser client for capturing canvas and console output
+- Browser client - Available at [vibe-eyes-client repository](https://github.com/monteslu/vibe-eyes-client) for capturing canvas and console output
 - `cli.js` - Standalone CLI tool for vectorization (not central to main functionality)
 
 ## Key Commands

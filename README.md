@@ -2,9 +2,13 @@
 
 An MCP server that enables LLMs to "see" what's happening in browser-based games and applications through vectorized canvas visualization and debug information.
 
+<img src="happy.jpg" width="50%" alt="Vibe-Eyes Logo">
+
+Vibe-Eyes uses a client-server architecture where a lightweight browser client captures canvas content and debug information, sends it to a Node.js server via WebSockets, which then vectorizes the images into compact SVG representations and makes them available to LLMs through the Model Context Protocol (MCP).
+
 ```mermaid
 flowchart LR
-    A["Browser Game/App<br/>(Canvas + JavaScript)"] -->|"Captures"| B["Vibe-Eyes Client<br/>(client.js)"]
+    A["Browser Game/App<br/>(Canvas + JavaScript)"] -->|"Captures"| B["Vibe-Eyes Client<br/>(vibe-eyes-client)"]
     B -->|"WebSocket<br/>(CORS-free)"| C["Socket.IO Server"]
     
     subgraph server["Vibe-Eyes Server (mcp.js)"]
@@ -32,11 +36,8 @@ flowchart LR
 
 > Note: This project is experimental and designed to enhance "vibe coding" sessions with LLMs by providing visual context and rich debug information.
 
-## What is Vibe-Eyes?
+## Key Capabilities
 
-Vibe-Eyes is a specialized tool designed to bridge the gap between browser games/applications and Large Language Models (LLMs) like Claude. It enables "vibe coding" sessions where LLMs can directly observe what's happening in a canvas-based application without requiring manual screenshots.
-
-**Key capabilities:**
 - Captures and vectorizes canvas elements from browser games
 - Collects console logs and errors in real-time
 - Catches unhandled exceptions with full stack traces
@@ -64,7 +65,9 @@ The core server that:
 - Provides HTTP endpoints for direct access
 - Processes images sequentially to manage resources
 
-### 2. Browser Client (`client.js`)
+### 2. Browser Client
+
+The browser client is available at [vibe-eyes-client repository](https://github.com/monteslu/vibe-eyes-client).
 
 A lightweight browser integration that:
 - Finds canvas elements in the page
@@ -115,15 +118,15 @@ Add the client to your browser application by including the required scripts:
 <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
 
 <!-- Include Vibe-Eyes client -->
-<script src="https://raw.githubusercontent.com/monteslu/vibe-eyes/main/client.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vibe-eyes-client/dist/index.min.js"></script>
 
 <!-- Initialize the client -->
 <script>
   // Import the initialization function if using as module
-  // import { initializeVectorizer } from './client.js';
+  // import { initializeVibeEyes } from 'vibe-eyes-client';
   
   // Initialize with configuration
-  const vibeEyes = initializeVectorizer({
+  const vibeEyes = initializeVibeEyes({
     // WebSocket URL to the Vibe-Eyes server
     serverUrl: 'ws://localhost:8869',
     // Capture interval in milliseconds
@@ -218,7 +221,7 @@ For applications that want to reuse the vectorized SVG output:
 
 ```javascript
 // Initialize the client
-const vibeEyes = initializeVectorizer({
+const vibeEyes = initializeVibeEyes({
   serverUrl: 'ws://localhost:8869',
   captureDelay: 1000, // ms between captures
   maxLogs: 10,        // Max console.log entries to store
