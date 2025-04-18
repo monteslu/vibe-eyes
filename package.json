@@ -1,6 +1,6 @@
 {
   "name": "vibe-eyes",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server that provides LLMs with vectorized canvas output and debug information for vibe coding",
   "main": "vectorizer.js",
   "type": "module",
@@ -23,6 +23,10 @@
     "library",
     "cli"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/monteslu/vibe-eyes.git"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

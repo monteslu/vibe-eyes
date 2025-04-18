@@ -2,7 +2,7 @@
 
 An MCP server that enables LLMs to "see" what's happening in browser-based games and applications through vectorized canvas visualization and debug information.
 
-<img src="happy.jpg" width="50%" alt="Vibe-Eyes Logo">
+<img src="./happy.jpg" width="50%" alt="Vibe-Eyes Logo">
 
 Vibe-Eyes uses a client-server architecture where a lightweight browser client captures canvas content and debug information, sends it to a Node.js server via WebSockets, which then vectorizes the images into compact SVG representations and makes them available to LLMs through the Model Context Protocol (MCP).
 
