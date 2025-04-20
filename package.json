@@ -1,6 +1,6 @@
 {
-  "name": "vibe-eyes",
-  "version": "1.0.1",
+  "name": "@monteslu/vibe-eyes",
+  "version": "1.0.2",
   "description": "MCP server that provides LLMs with vectorized canvas output and debug information for vibe coding",
   "main": "vectorizer.js",
   "type": "module",

@@ -18,6 +18,8 @@ const io = new Server(httpServer, {
   },
   maxHttpBufferSize: 50 * 1024 * 1024 // 50MB max message size
 });
+let mcpRequestCount = 0;
+let mcpRequestWithoutSvgCount = 0;
 
 // Configuration
 const PORT = process.env.PORT || 8869;
@@ -104,7 +106,7 @@ io.on('connection', (socket) => {
   // Handle debug captures
   socket.on('debugCapture', async (data, callback) => {
     try {
-      console.log(`[${new Date().toISOString()}] Processing new debug capture...`);
+      // console.log(`[${new Date().toISOString()}] Processing new debug capture...`);
       
       // Create capture object
       const capture = {
@@ -117,7 +119,7 @@ io.on('connection', (socket) => {
       
       // Process image if provided - this is async and we need to await it
       if (data.image) {
-        console.log(`[${new Date().toISOString()}] Processing image...`);
+        // console.log(`[${new Date().toISOString()}] Processing image...`);
         const processingStart = Date.now();
         
         try {
@@ -131,7 +133,7 @@ io.on('connection', (socket) => {
               imageType: imageResult.imageType,
               stats: imageResult.stats
             };
-            console.log(`[${new Date().toISOString()}] Image processed in ${Date.now() - processingStart}ms`);
+            // console.log(`[${new Date().toISOString()}] Image processed in ${Date.now() - processingStart}ms`);
           } else {
             console.error(`[${new Date().toISOString()}] Image processing failed:`, imageResult.error);
           }
@@ -145,7 +147,7 @@ io.on('connection', (socket) => {
       latestCapture = capture;
       
       // Log receipt
-      console.log(`[${new Date().toISOString()}] Capture complete: ${capture.id}`);
+      // console.log(`[${new Date().toISOString()}] Capture complete: ${capture.id}`);
       
       // Only send callback AFTER all processing is done
       if (callback) {
@@ -155,7 +157,9 @@ io.on('connection', (socket) => {
           processedAt: Date.now(),
           // Include the SVG in the response to client
           svg: capture.vectorized ? capture.vectorized.svg : null,
-          stats: capture.vectorized ? capture.vectorized.stats : null
+          stats: capture.vectorized ? capture.vectorized.stats : null,
+          mcpRequestCount,
+          mcpRequestWithoutSvgCount,
         });
       }
     } catch (error) {
@@ -208,6 +212,10 @@ const mcpServer = new McpServer({
 mcpServer.tool("getGameDebugInfoWithLogsAndVisualization", {
   includeSvg: z.boolean().optional().default(true)
 }, async ({ includeSvg }) => {
+  mcpRequestCount++;
+  if (!includeSvg) {
+    mcpRequestWithoutSvgCount++;
+  }
   // Simply use the latest capture
   if (!latestCapture) {
     // Return basic response when no data is available
