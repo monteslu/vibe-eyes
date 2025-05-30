@@ -1,5 +1,7 @@
 # Vibe-Eyes
 
+[![smithery badge](https://smithery.ai/badge/@monteslu/vibe-eyes)](https://smithery.ai/server/@monteslu/vibe-eyes)
+
 An MCP server that enables LLMs to "see" what's happening in browser-based games and applications through vectorized canvas visualization and debug information.
 
 <img src="./happy.jpg" width="50%" alt="Vibe-Eyes Logo">
@@ -92,6 +94,15 @@ A high-quality SVG vectorization library that:
 
 ### Installation
 
+### Installing via Smithery
+
+To install Vibe-Eyes for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@monteslu/vibe-eyes):
+
+```bash
+npx -y @smithery/cli install @monteslu/vibe-eyes --client claude
+```
+
+### Manual Installation
 ```bash
 # Clone the repository
 git clone https://github.com/monteslu/vibe-eyes.git
