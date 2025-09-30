@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/monteslu-vibe-eyes-badge.png)](https://mseep.ai/app/monteslu-vibe-eyes)
+
 # Vibe-Eyes
 
 [![smithery badge](https://smithery.ai/badge/@monteslu/vibe-eyes)](https://smithery.ai/server/@monteslu/vibe-eyes)
