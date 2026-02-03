@@ -1,0 +1,132 @@
+# vibe-eyes
+
+> MCP server that lets LLMs "see" browser games by converting canvas content to vectorized SVG and collecting debug info (console logs, errors, exceptions).
+
+## Architecture
+
+```
+Browser (canvas game) → vibe-eyes-client → WebSocket → vibe-eyes server → MCP → LLM
+```
+
+## Installation
+
+```bash
+npm install -g @monteslu/vibe-eyes
+```
+
+Or run via npx:
+```bash
+npx @monteslu/vibe-eyes
+```
+
+## MCP Configuration
+
+Add to your MCP client (Claude Desktop, etc.):
+
+```json
+{
+  "mcpServers": {
+    "vibe-eyes": {
+      "command": "npx",
+      "args": ["@monteslu/vibe-eyes"]
+    }
+  }
+}
+```
+
+## Available MCP Tools
+
+### getGameDebug
+
+Returns current game state including vectorized canvas and debug info.
+
+**Returns:**
+- `svg`: Vectorized representation of the canvas (compact SVG)
+- `logs`: Recent console.log messages
+- `errors`: Recent console.error messages
+- `exceptions`: Uncaught exceptions with stack traces
+- `timestamp`: When the data was captured
+
+## Browser Client Setup
+
+Install in your game/app:
+
+```bash
+npm install vibe-eyes-client
+```
+
+```javascript
+import { initVibeEyes } from 'vibe-eyes-client';
+
+// Start capturing (call after canvas is ready)
+initVibeEyes({
+  serverUrl: 'http://localhost:8869',  // Default server URL
+  captureInterval: 1000,  // ms between captures
+  canvas: document.getElementById('game-canvas')  // Optional: specify canvas
+});
+```
+
+Or via script tag:
+```html
+<script src="https://unpkg.com/vibe-eyes-client/dist/vibe-eyes-client.min.js"></script>
+<script>
+  window.initVibeEyes();
+</script>
+```
+
+## Server API
+
+### HTTP Endpoints
+
+- `GET /` - Health check
+- `GET /debug` - Get latest debug data as JSON
+- `GET /svg` - Get latest SVG image
+
+### WebSocket Events (Socket.IO)
+
+- `canvas-data` - Receives canvas snapshot from client
+- `console-log` - Receives console.log messages
+- `console-error` - Receives console.error messages
+- `exception` - Receives uncaught exceptions
+
+## Key Files
+
+| File | Purpose |
+|------|---------|
+| `mcp.js` | MCP server entry point, handles tool requests |
+| `vectorizer.js` | Converts raster images to SVG |
+| `index.js` | Socket.IO server for browser communication |
+| `cli.js` | Command-line interface |
+
+## How Vectorization Works
+
+1. Browser captures canvas as PNG data URL
+2. Server receives via WebSocket
+3. `@neplex/vectorizer` converts to rough SVG paths
+4. `svgo` optimizes SVG size
+5. Result stored for MCP access
+
+The SVG is a "rough approximation" - shapes and colors are preserved but fine details may be simplified. This keeps the data compact while giving LLMs visual understanding.
+
+## Configuration
+
+Environment variables:
+- `PORT` - HTTP/WebSocket port (default: 8869)
+- `DEBUG` - Enable debug logging
+
+## Use Cases
+
+1. **Game debugging** - LLM can see the game state and help fix bugs
+2. **Visual feedback** - Describe what's on screen to the LLM
+3. **Automated testing** - Verify visual output programmatically
+4. **Accessibility** - Convert visual content to descriptions
+
+## Related Projects
+
+- [vibe-eyes-client](https://github.com/monteslu/vibe-eyes-client) - Browser client
+- [jsgamelauncher](https://github.com/monteslu/jsgamelauncher) - Run JS games without a browser
+- [robot-mcp](https://github.com/monteslu/robot-mcp) - Control physical robots via MCP
+
+## License
+
+ISC
