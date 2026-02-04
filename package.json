@@ -1,6 +1,6 @@
 {
   "name": "@monteslu/vibe-eyes",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "MCP server that provides LLMs with vectorized canvas output and debug information for vibe coding",
   "main": "vectorizer.js",
   "type": "module",
@@ -21,7 +21,9 @@
     "conversion",
     "high-quality",
     "library",
-    "cli"
+    "cli",
+    "mcp",
+    "sse"
   ],
   "repository": {
     "type": "git",
@@ -30,13 +32,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.10.1",
     "@neplex/vectorizer": "^0.0.5",
     "commander": "^13.1.0",
     "express": "^4.18.3",
     "socket.io": "^4.7.4",
-    "svgo": "^3.3.2",
-    "zod": "^3.22.4"
+    "svgo": "^3.3.2"
   },
   "exports": {
     ".": "./vectorizer.js"
