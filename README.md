@@ -2,7 +2,7 @@
 
 # Vibe-Eyes
 
-[![smithery badge](https://smithery.ai/badge/@monteslu/vibe-eyes)](https://smithery.ai/server/@monteslu/vibe-eyes)
+[![LightNow capabilities](https://lightnow.ai/badge/io.github.monteslu/vibe-eyes)](https://lightnow.ai/servers/io.github.monteslu/vibe-eyes)
 
 An MCP server that enables LLMs to "see" what's happening in browser-based games and applications through vectorized canvas visualization and debug information.
 
